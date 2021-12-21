@@ -122,7 +122,7 @@ public class IITCarParkManager implements CarParkManager {
         System.out.println("Please enter number 4 to print the percentage of vehicles parked");
         System.out.println("Please enter number 5 to print the receipt");
         System.out.println("Please enter number 6 to check the status of the vehicle");
-        System.out.println("Please enter number 7 to print the first and last element that was parked");
+        System.out.println("Please enter number 7 to print the first and last vehicle that was parked");
         System.out.println("Please enter number 8 to exit from the system");
         System.out.print(" ");
         Scanner sc = new Scanner(System.in);
