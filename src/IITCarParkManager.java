@@ -1,3 +1,6 @@
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -206,12 +209,87 @@ public class IITCarParkManager implements CarParkManager{
     }
 
     @Override
-    public void searchByDay(String day){
+    public void searchByDay(String day, String fileName){
         for (Vehicle obj:vehicleList){
-            if (obj.dt.getDate().equals(day)){
+            if (obj.getDate().equals(day)){
                 System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers());
+                fileReading(fileName);
             }
         }
+    }
+    
+     private void fileReading(String fileName) {
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new FileReader(fileName));
+            if (!isEmptyFile(fileName)) {
+                System.out.println("The list of vehicles parked on " + fileName + " (YYYY/MM/DD) \n");
+
+                String currentLine;
+                while ((currentLine = br.readLine()) != null) {
+                    String[] lineParts = currentLine.split("/", -1);
+                    String date = lineParts[0];
+                    String time = lineParts[1];
+                    String id = lineParts[2];
+                    String brand = lineParts[3];
+                    System.out.format( date, time, id, brand);
+                }
+
+                System.out.format("+---------------+---------------+------------------+-----------------+%n");
+            } else {
+                System.out.println("No vehicle was parked on " + fileName);
+            }
+        } catch (IOException var17) {
+            System.out.println("\nSorry! The program could not locate the text file");
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException var16) {
+                System.out.println("\nOops! Something went wrong.");
+            }
+
+        }
+
+    }
+
+    private boolean isEmptyFile(String source) {
+        try {
+            Iterator var1 = Files.readAllLines(Paths.get(source)).iterator();
+
+            while (var1.hasNext()) {
+                String line = (String) var1.next();
+                if (line != null && !line.trim().isEmpty()) {
+                    return false;
+                }
+            }
+        } catch (IOException var3) {
+            var3.printStackTrace();
+        }
+
+        return true;
+    }
+    public void fileWriting(Vehicle vehicle) {
+        try {
+            String parkedYear = vehicle.dt.getDate();
+
+            String fileName = parkedYear + "File.txt";
+            File file = new File(fileName);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(vehicle.toString());
+            bw.newLine();
+            bw.close();
+        } catch (IOException var9) {
+            System.out.println("Sorry! The program could not locate the text file");
+        }
+
     }
 
     @Override
@@ -232,7 +310,7 @@ public class IITCarParkManager implements CarParkManager{
     }
 
     @Override
-    public boolean mainMenu(){
+    public boolean mainMenu(String fileName){
         boolean exit = false;
         System.out.println("============================================");
         System.out.println("Welcome to the IIT CarPark Management System");
@@ -294,6 +372,7 @@ public class IITCarParkManager implements CarParkManager{
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
                         Scar += 3;
                         Vcar += 1;
+                        this.fileWriting(obj);
                         break;
                     case 2:
                         String modal = null;
@@ -304,6 +383,7 @@ public class IITCarParkManager implements CarParkManager{
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 2));
                         Svan += 6;
                         Vvan +=1;
+                        this.fileWriting(obj);
                         break;
                     case 3:
                         String capacity = null;
@@ -314,6 +394,7 @@ public class IITCarParkManager implements CarParkManager{
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
                         Sbike +=1;
                         Vbike += 1;
+                        this.fileWriting(obj);
                         break;
                     case 4:
                         String noOfDoors = null;
@@ -324,6 +405,7 @@ public class IITCarParkManager implements CarParkManager{
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
                         Sbus += 9;
                         VminiBus += 1;
+                        this.fileWriting(obj);
                         break;
                     case 5:
                         String tcapacity = null;
@@ -334,6 +416,7 @@ public class IITCarParkManager implements CarParkManager{
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
                         Slorry += 9;
                         VminiLorry += 1;
+                        this.fileWriting(obj);
                         break;
                     default:
                         System.out.println("<<Invalid vehicle input. Please enter shape again!>>");
@@ -384,7 +467,7 @@ public class IITCarParkManager implements CarParkManager{
                 System.out.println("============================================");
                 System.out.println("Enter Date: [dd-mm-yyyy]");
                 String day = dy.next();
-                searchByDay(day);
+                searchByDay(day,fileName);
                 break;
 
             case 6:
