@@ -13,6 +13,14 @@ public class IITCarParkManager implements CarParkManager{
 
     int Vcar =0, Vvan = 0, Vbike = 0, VminiLorry = 0, VminiBus =0;
     float Scar = 0, Svan = 0, Sbike = 0,Slorry = 0, Sbus = 0;
+    int fCar, fVan, fBike, fBus, fLorry = 0;
+    
+    private List<Vehicle> carlist = new ArrayList<Vehicle>();
+    private int maxCarSlots = 540;
+    private List<Vehicle> bikeVanlist = new ArrayList<Vehicle>();
+    private int maxBikeVanSlots = 360;
+    private List<Vehicle> busLorrylist = new ArrayList<Vehicle>();
+    private int maxBusLorrySlots = 180;
 
 
 
@@ -43,26 +51,41 @@ public class IITCarParkManager implements CarParkManager{
                 if (obj.getVehicleRegNo().equals(regNo)){
                     //vehicleList.remove(obj);
                     removeList.add(obj);
+                    Scar -= 3;
+                    Vcar -= 1;
+                    fCar -= 3;
                 }
             }else if (obj instanceof Van){
                 if (obj.getVehicleRegNo().equals(regNo)){
                     //vehicleList.remove(obj);
                     removeList.add(obj);
+                    Svan -= 6;
+                    Vvan -= 1;
+                    fVan -= 6;
                 }
             }else if (obj instanceof Bike) {
                 if (obj.getVehicleRegNo().equals(regNo)) {
                     //vehicleList.remove(obj);
                     removeList.add(obj);
+                    Sbike-= 1;
+                    Vbike -= 1;
+                    fBike -= 1;
                 }
             }else if (obj instanceof MiniBus) {
                 if (obj.getVehicleRegNo().equals(regNo)) {
                     //vehicleList.remove(obj);
                     removeList.add(obj);
+                    Sbus -= 9;
+                    VminiBus -= 1;
+                    fBus-= 9;
                 }
             }else if (obj instanceof MiniLorry) {
                 if (obj.getVehicleRegNo().equals(regNo)) {
                     //vehicleList.remove(obj);
                     removeList.add(obj);
+                    Slorry -= 9;
+                    VminiLorry -= 1;
+                    fLorry -= 9;
                 }
             }
 
@@ -370,8 +393,10 @@ public class IITCarParkManager implements CarParkManager{
 
                         obj = new Car(vehicleRegNo,noOfPassengers,brand,name,date,stime);
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
+                        carlist.add(obj);
                         Scar += 3;
                         Vcar += 1;
+                        fCar += 3;
                         this.fileWriting(obj);
                         break;
                     case 2:
@@ -381,8 +406,10 @@ public class IITCarParkManager implements CarParkManager{
 
                         obj = new Van(vehicleRegNo,noOfPassengers,modal,name,date,stime);
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 2));
+                        bikeVanlist.add(obj);
                         Svan += 6;
                         Vvan +=1;
+                        fVan += 6;
                         this.fileWriting(obj);
                         break;
                     case 3:
@@ -392,8 +419,10 @@ public class IITCarParkManager implements CarParkManager{
 
                         obj = new Bike(vehicleRegNo,noOfPassengers,name,date,stime,capacity);
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
+                        bikeVanlist.add(obj);
                         Sbike +=1;
                         Vbike += 1;
+                        fBike +=1;
                         this.fileWriting(obj);
                         break;
                     case 4:
@@ -403,8 +432,10 @@ public class IITCarParkManager implements CarParkManager{
 
                         obj = new MiniBus(vehicleRegNo,noOfPassengers,name,date,stime,noOfDoors);
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
+                        busLorrylist.add(obj);
                         Sbus += 9;
                         VminiBus += 1;
+                        fBus +=9;
                         this.fileWriting(obj);
                         break;
                     case 5:
@@ -414,8 +445,10 @@ public class IITCarParkManager implements CarParkManager{
 
                         obj = new Bike(vehicleRegNo,noOfPassengers,name,date,stime,tcapacity);
                         //System.out.println("No.of remaining available slots: "+(maxOfSlots - 1));
+                        busLorrylist.add(obj);
                         Slorry += 9;
                         VminiLorry += 1;
+                        fLorry += 9;
                         this.fileWriting(obj);
                         break;
                     default:
@@ -486,5 +519,14 @@ public class IITCarParkManager implements CarParkManager{
         }
         return exit;
     }
-}
+    public void floorPreferences(){
+
+        int thirdFloor = (int)(maxCarSlots - Scar)/3 ;
+        int firstFloor = (int)(maxBikeVanSlots - (Sbike + Svan))/3 ;
+        int groundFloor = (int) (maxBusLorrySlots - (Sbus + Slorry))/3;
+
+        System.out.println("Spaces Available at respective floors:"+"\n"+"3rd,4th,5th Floor(only for cars):"+thirdFloor+"\n"+
+                "1st,2nd Floor(only for bikes and Vans): "+firstFloor+"\n"+"Ground Floor(only for Mini busses and Mini lorries): "+groundFloor);
+    }
+  }
 
