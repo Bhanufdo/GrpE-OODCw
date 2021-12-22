@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class IITCarParkManager implements CarParkManager{
+public class IITCarParkManager implements CarParkManager,Runnable{
 
     private List<Vehicle> vehicleList;
     private int maxOfSlots;
@@ -28,6 +28,8 @@ public class IITCarParkManager implements CarParkManager{
         super();
         this.vehicleList = new ArrayList<Vehicle>();
         this.maxOfSlots = 180;
+        new Thread(this).start();
+        
     }
 
     @Override
@@ -103,6 +105,11 @@ public class IITCarParkManager implements CarParkManager{
         Vehicle v = vehicleList.get(vehicleList.size()-1);
 
         System.out.println(v.getVehicleRegNo());
+        
+        System.out.println("                             ");
+        System.out.println("-----------------------------------------");
+        System.out.println("Last Vehicle Entered the CarPark: "+"\n"+"Vehicle number plate: "+v.getVehicleRegNo()+"\n"+"Owner name: "+v.getOwnerName()+"\n"+"Entry Date: "+v.dt.getDate()+"\n"+"Entry Time: "+v.dt.getStime());
+        System.out.println("-----------------------------------------");
     }
 
 
@@ -110,6 +117,7 @@ public class IITCarParkManager implements CarParkManager{
     public void charges(String regNo, String etime){
         int fee = 0;
         for (Vehicle obj:vehicleList){
+            System.out.println("     ");
             System.out.println("<<<<<<<<<   Wait for Your Bill  >>>>>>>>>");
             if (obj.getVehicleRegNo().equals(regNo)){
                 SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -149,7 +157,8 @@ public class IITCarParkManager implements CarParkManager{
                     }else if (difference_In_Hours == 00){
                         fee = 3000;
                     }
-
+                    
+                    System.out.println("                                               ");
                     System.out.println("===============================================");
                     System.out.println("                 IIT CAR PARK                  ");
                     System.out.println("===============================================");
@@ -161,8 +170,8 @@ public class IITCarParkManager implements CarParkManager{
                     System.out.println("-----------------------------------------------");
                     System.out.println("                  USER DETAILS                 ");
                     System.out.println("-----------------------------------------------");
-                    System.out.println("      User Name         : "+obj.getOwnerName());
-                    System.out.println("      Vehicle Reg.No    : "+obj.getVehicleRegNo());
+                    System.out.println("      User Name          : "+obj.getOwnerName());
+                    System.out.println("      Vehicle Numberplate: "+obj.getVehicleRegNo());
                     System.out.println("-----------------------------------------------");
                     System.out.println("               AMOUNT & DENOMINATIONS          ");
                     System.out.println("-----------------------------------------------");
@@ -203,28 +212,46 @@ public class IITCarParkManager implements CarParkManager{
             }
         }
     }*/
+    
+    public  void showNumberPlate(){
+        for (Vehicle obj:vehicleList){
+            System.out.println("               ");
+            System.out.println("Which vehicle do yo want to delete? ");
+            System.out.println("           ");
+            for (int i = 0; i<=vehicleList.size(); i++){
+                System.out.println(obj.getVehicleRegNo()+"\n");
+            }
+        }
+    }
+    
     @Override
     public void printStatus(){
         //System.out.println(vehicleList.size());
         for (int i = vehicleList.size()-1; i >= 0  ; i--){
             //System.out.println(i);
             Vehicle obj = vehicleList.get(i);
+            System.out.println("                                      ");
 
             if (obj instanceof Car){
                 System.out.println("*******************************");
-                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers());
+                System.out.println("~~~~~~~~Vehicle is a Car~~~~~~~");
+                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers()+"\n"+"Entry Date: "+obj.dt.getDate()+"\n"+"Entry Time: "+obj.dt.getStime());
             } else if (obj instanceof Van){
                 System.out.println("*******************************");
-                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers());
+                System.out.println("~~~~~~~~Vehicle is a Van~~~~~~~");
+                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers()+"\n"+"Entry Date: "+obj.dt.getDate()+"\n"+"Entry Time: "+obj.dt.getStime());
             }else if (obj instanceof Bike) {
                 System.out.println("*******************************");
-                System.out.println("Owner Name: " + obj.getOwnerName() + "\n" + "Vehicle Number Plate: " + obj.getVehicleRegNo() + "\n" + "Number of Passengers: " + obj.getNoOfPassengers());
+                System.out.println("~~~~~~~Vehicle is a Bike~~~~~~~");
+                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers()+"\n"+"Entry Date: "+obj.dt.getDate()+"\n"+"Entry Time: "+obj.dt.getStime());
             }else if (obj instanceof MiniBus) {
                 System.out.println("*******************************");
-                System.out.println("Owner Name: " + obj.getOwnerName() + "\n" + "Vehicle Number Plate: " + obj.getVehicleRegNo() + "\n" + "Number of Passengers: " + obj.getNoOfPassengers());
+                System.out.println("~~~~~~~~Vehicle is a Bus~~~~~~~");
+                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers()+"\n"+"Entry Date: "+obj.dt.getDate()+"\n"+"Entry Time: "+obj.dt.getStime());
             }else if (obj instanceof MiniLorry) {
                 System.out.println("*******************************");
-                System.out.println("Owner Name: " + obj.getOwnerName() + "\n" + "Vehicle Number Plate: " + obj.getVehicleRegNo() + "\n" + "Number of Passengers: " + obj.getNoOfPassengers());
+                System.out.println("~~~~~~~Vehicle is a Lorry~~~~~~");
+                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers()+"\n"+"Entry Date: "+obj.dt.getDate()+"\n"+"Entry Time: "+obj.dt.getStime());
             }else{
                 System.out.println("Unsupported Vehicle!");
             }
@@ -234,8 +261,11 @@ public class IITCarParkManager implements CarParkManager{
     @Override
     public void searchByDay(String day, String fileName){
         for (Vehicle obj:vehicleList){
-            if (obj.getDate().equals(day)){
-                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers());
+            if (obj.dt.getDate().equals(day)){
+                System.out.println("                                     ");
+                System.out.println("=====================================");
+                System.out.println("Owner Name: "+obj.getOwnerName()+"\n"+"Vehicle Number Plate: "+obj.getVehicleRegNo()+"\n"+"Number of Passengers: "+obj.getNoOfPassengers()+"\n"+"Entry Date: "+obj.dt.getDate()+"\n"+"Entry Time: "+obj.dt.getStime());
+                System.out.println("=====================================");
                 fileReading(fileName);
             }
         }
@@ -324,17 +354,22 @@ public class IITCarParkManager implements CarParkManager{
         double Pbus = VminiBus*100/total;
         double Plorry= VminiLorry*100/total;
 
+        System.out.println("                 ");
+        System.out.println("--------------------------------");
         System.out.println("Vehicle Percentages: ");
+        System.out.println("--------------------------------");
         System.out.println("Cars = "+Pcar+"%");
         System.out.println("Vans = "+Pvan+"%");
         System.out.println("Bike = "+Pbike+"%");
         System.out.println("Mini Bus = "+Pbus+"%");
         System.out.println("Mini Lorry = "+Plorry+"%");
+        System.out.println("--------------------------------");
     }
 
     @Override
     public boolean mainMenu(String fileName){
         boolean exit = false;
+        System.out.println("                                            ");
         System.out.println("============================================");
         System.out.println("Welcome to the IIT CarPark Management System");
         System.out.println("============================================");
@@ -353,33 +388,37 @@ public class IITCarParkManager implements CarParkManager{
         System.out.println("[5] Search Vehicle By Day");
         System.out.println("[6] Vehicle percentage");
         System.out.println("[7] View last vehicle");
-        System.out.println("[8] Exit");
+        System.out.println("[8] Spaces Available at floors");
+        System.out.println("[9] Exit");
+        System.out.println("--------------------------------------------");
         System.out.print("Enter your choice: ");
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
 
         switch (choice){
             case 1:
+                System.out.println("                                            ");
                 System.out.println("============================================");
                 System.out.println("[1] Add a Car");
                 System.out.println("[2] Add a Van");
                 System.out.println("[3] Add a Bike");
                 System.out.println("[4] Add a Mini Bus");
                 System.out.println("[5] Add a Mini Lorry");
+                System.out.println("--------------------------------------------");
                 System.out.print("Enter your choice: ");
                 int choice2 = sc.nextInt();
 
                 System.out.print("Enter Your Name: ");
                 Scanner nm = new Scanner(System.in);
                 String name = nm.next();
-                System.out.println("Enter Date: [dd-mm-yyyy]");
+                System.out.print("Enter Date [dd-mm-yyyy]: ");
                 Scanner d = new Scanner(System.in);
                 String date = d.next();
-                System.out.println("Enter Time: [HH:mm:ss]");
+                System.out.print("Enter Time [HH:mm:ss]: ");
                 Scanner st = new Scanner(System.in);
                 String stime = st.next();
 
-                System.out.print("Enter the Vehicle Registration Number: ");
+                System.out.print("Enter the Vehicle Number Plate: ");
                 String vehicleRegNo = sc.next();
                 System.out.print("Enter the number of Passengers on board: ");
                 int noOfPassengers = sc.nextInt();
@@ -452,12 +491,13 @@ public class IITCarParkManager implements CarParkManager{
                         this.fileWriting(obj);
                         break;
                     default:
-                        System.out.println("<<Invalid vehicle input. Please enter shape again!>>");
+                        System.out.println("<<Unauthorized vehicle insertion>>");
                 }
                 float total_spaces = Scar+Svan+Sbike+Sbus+Slorry;
                 float final_spaces = (maxOfSlots - total_spaces)/3;
                 if (obj != null){
                     addVehicle(obj);
+                    System.out.println("                     ");
                     System.out.println("Vehicle added Successfully!");
                     System.out.println("No.of remaining available slots: "+final_spaces);
                 } else {
@@ -473,9 +513,10 @@ public class IITCarParkManager implements CarParkManager{
                 Scanner dl = new Scanner(System.in);
                 System.out.println("                                            ");
                 System.out.println("============================================");
-                System.out.println("Enter your car Reg.no: ");
+                showNumberPlate();
+                System.out.print("Enter your vehicle Number plate: ");
                 String regNo = dl.next();
-                System.out.print("Enter Time: [HH:mm:ss]");
+                System.out.print("Enter Time [HH:mm:ss]:");
                 Scanner et = new Scanner(System.in);
                 String etime = et.next();
 
@@ -498,7 +539,7 @@ public class IITCarParkManager implements CarParkManager{
                 Scanner dy = new Scanner(System.in);
                 System.out.println("                                            ");
                 System.out.println("============================================");
-                System.out.println("Enter Date: [dd-mm-yyyy]");
+                System.out.println("Enter Date [dd-mm-yyyy]:");
                 String day = dy.next();
                 searchByDay(day,fileName);
                 break;
@@ -510,6 +551,9 @@ public class IITCarParkManager implements CarParkManager{
                 viewLastVehicle();
                 break;
             case 8:
+                floorPreferences();
+                break;    
+            case 9:
                 exit = true;
                 System.out.println("Moving out from the application >>>>>>>");
                 break;
@@ -524,9 +568,24 @@ public class IITCarParkManager implements CarParkManager{
         int thirdFloor = (int)(maxCarSlots - Scar)/3 ;
         int firstFloor = (int)(maxBikeVanSlots - (Sbike + Svan))/3 ;
         int groundFloor = (int) (maxBusLorrySlots - (Sbus + Slorry))/3;
-
+        
+        System.out.println("                                                 ");
+        System.out.println("-------------------------------------------------");
         System.out.println("Spaces Available at respective floors:"+"\n"+"3rd,4th,5th Floor(only for cars):"+thirdFloor+"\n"+
                 "1st,2nd Floor(only for bikes and Vans): "+firstFloor+"\n"+"Ground Floor(only for Mini busses and Mini lorries): "+groundFloor);
+        System.out.println("-------------------------------------------------");
     }
+    
+    @Override
+    public void run() {
+        boolean exit = false;
+        while (!exit){
+            exit = mainMenu("File.txt");
+        }
+        //mainMenu();
+
+    }
+    
+   
   }
 
