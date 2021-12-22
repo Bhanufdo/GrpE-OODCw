@@ -7,10 +7,12 @@ IITCarParkManager
 OOD Course work
 Group E
 
-Download the zip file and open with intellij.
+>Download the zip file and open with intellij.
 src folder contains all the java files for the group work.
 
-There are 4 folders; Bhanuka,Nihaj,Oshadi,Hansa.
+>There are 4 folders; Bhanuka,Nihaj,Oshadi,Hansa.
 Theses folders contain design,code and individual report for the individual task of the course work of respective student.
+
+>Diagrams folder contain Usecase diagram, Analysis class diagram and Sequence diagram
 
 
