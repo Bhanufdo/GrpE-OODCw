@@ -215,17 +215,13 @@ public class IITCarParkManager implements CarParkManager,Runnable{
     
     public  void showNumberPlate(){
         for (Vehicle obj:vehicleList){
-            System.out.println("               ");
-            System.out.println("Which vehicle do yo want to delete? ");
-            System.out.println("           ");
-            for (int i = 0; i<=vehicleList.size(); i++){
-                System.out.println(obj.getVehicleRegNo()+"\n");
-            }
+            System.out.println(obj.getVehicleRegNo()+"\n");
+
         }
     }
     
     @Override
-    public void printStatus(){
+    public void printVehicles(){
         //System.out.println(vehicleList.size());
         for (int i = vehicleList.size()-1; i >= 0  ; i--){
             //System.out.println(i);
@@ -507,12 +503,15 @@ public class IITCarParkManager implements CarParkManager,Runnable{
                 break;
 
             case 2:
-                printStatus();
+                printVehicles();
                 break;
             case 3:
                 Scanner dl = new Scanner(System.in);
                 System.out.println("                                            ");
                 System.out.println("============================================");
+                System.out.println("               ");
+                System.out.println("Which vehicle do yo want to delete? ");
+                System.out.println("           ");
                 showNumberPlate();
                 System.out.print("Enter your vehicle Number plate: ");
                 String regNo = dl.next();
