@@ -3,7 +3,7 @@ public interface CarParkManager {
     void deleteVehicle(String regNO);
     //void searchVehicle(String regNo);
     void viewLastVehicle();
-    void printStatus();
+    void printVehicles();
     void searchByDay(String date,String fileName);
     void vehiclesByPercentage();
     void charges(String regNo, String etime);
