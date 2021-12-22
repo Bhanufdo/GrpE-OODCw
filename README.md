@@ -11,6 +11,6 @@ Download the zip file and open with intellij.
 src folder contains all the java files for the group work.
 
 There are 4 folders; Bhanuka,Nihaj,Oshadi,Hansa.
-Theses folders contain design,code and individual report for the individual task of the course work of respective members.
+Theses folders contain design,code and individual report for the individual task of the course work of respective student.
 
 
