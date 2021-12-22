@@ -1,4 +1,6 @@
-public class DateTime {
+import java.io.Serializable;
+
+public class DateTime implements Serializable{
 
     private String date;
     private String stime;
